@@ -1,0 +1,46 @@
+version: '2'
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+  kafka:
+    build: ./kafka/
+    ports:
+      - "32802:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.0.103
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CREATE_TOPICS: "IoT:2:1"
+      KAFKA_CREATE_CONSUMER_GROUP: "iot-cg"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  #  vue-grpc-client:
+  #    container_name: vue-grpc-client
+  #    build:
+  #      context: ./grpc-client/
+  #      dockerfile: ./Dockerfile
+  #    image: vue-grpc-client:iot
+  #    command: http-server --cors dist
+  #
+  #    ports:
+  #      - "8080:8080"   # express
+  #    volumes:
+  #      - ./:/app
+  iot.grpc:
+    build:
+      context: ./IoT.gRPC/
+      dockerfile: ./IoT.gRPC/Dockerfile
+    image: iotgrpc
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "https://+:443;http://+:80"
+      KAFKA_TOPIC: "IoT"
+      KAFKA_CONSUMER_GROUP: "iot-cg"
+      KAFKA_HOST: "192.168.0.103:32802"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

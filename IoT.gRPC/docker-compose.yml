@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  iot.grpc:
+    image: ${DOCKER_REGISTRY-}iotgrpc
+    build:
+      context: .
+      dockerfile: IoT.gRPC/Dockerfile

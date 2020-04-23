@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  vue-grpc-client:
+    container_name: vue-grpc-client
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: vue-grpc-client:iot
+    command: http-server --cors dist
+
+    ports:
+      - "8080:8080"   # express
+    volumes:
+      - ./:/app

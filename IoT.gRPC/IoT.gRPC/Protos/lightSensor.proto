@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+
+option csharp_namespace = "IoT.gRPC";
+
+package light_sensor_message;
+
+service LigthSensor {
+  rpc GetLightSensorStream (LightSensorMessagesRequest) returns (stream LightSensorMessage);
+}
+
+message LightSensorMessagesRequest {
+}
+
+message LightSensorMessage {
+  string data = 1;
+  string time = 2;
+}
