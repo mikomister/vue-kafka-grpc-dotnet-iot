@@ -15,7 +15,7 @@
     "@vue/cli-plugin-babel": "~4.3.0",
     "@vue/cli-service": "~4.3.0",
     "google-protobuf": "^3.11.4",
-    "grpc": "^1.24.2",
+    "grpc": "^1.24.9",
     "grpc-web": "^1.0.7",
     "sass": "^1.19.0",
     "sass-loader": "^8.0.0",
